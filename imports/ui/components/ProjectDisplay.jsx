@@ -5,10 +5,12 @@ import {SpinnerView} from 'meteor/dpraburaj:react-spin';
 
 const manipulateDate = (date) => { return moment(date).format('DD-MM-YYYY')}
 
-const renderData = (projectData ) => {
+const renderData = (projectData, handleFilteredProjects ) => {
   return ( projectData && projectData.length > 0 ) ?
       <div className="project-display-wrapper">
-          <Search />
+
+
+          <Search handleFilteredProjects = {handleFilteredProjects}/>
 
           <table>
             {console.log(projectData,"-----")}
@@ -54,8 +56,6 @@ const displayLoader = () => {
   );
 }
 
-export const ProjectDisplay = ({loading,projects}) => {
-  console.log(loading,projects);
-//  let load = true;
-  return (loading || typeof loading == 'undefined') ? displayLoader() : renderData(projects);
+export const ProjectDisplay = ({loading,projects,filterData}) => {
+  return (loading || typeof loading == 'undefined') ? displayLoader() : renderData(projects,filterData);
 };

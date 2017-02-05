@@ -7,20 +7,28 @@ import {ReactiveVar} from 'meteor/reactive-var';
 export const filter = new ReactiveVar(null);
 
 export default ProjectDisplayContainer = createContainer(({ params }) => {
-  console.log(params,"sdkjfslfjlj")
-  console.log(this.props);
   const subscription = Meteor.subscribe('project-data');
   const loading = !subscription.ready();
-  let projects;
-  if(filter.get()) {
-    let selector = {};
-    selector.name = {
-      $regex: new RegExp(`.*${filter.get()}.*`, 'i'),
-    };
-     projects = Projects.find(selector).fetch();
+  let projects = Projects.find().fetch();
+
+  let filterData = function(searchInput,selectorName) {
+    if(searchInput) {
+      if(selectorName == 'hours' || selectorName == 'price') {
+        projects = Projects.find({ selectorName : { $gt: searchInput } }).fetch();
+      }else if(selectorName == 'course' || selectorName == 'classes') {
+        projects = Projects.find({selectorName : searchInput}).fetch();
+      }else {
+        const selector = {};
+        selector.name = {
+          $regex: new RegExp(`.*${searchInput}.*`, 'i')
+        }
+        projects = Projects.find(selector).fetch();
+      }
+    }
   }
-  else{
-     projects = Projects.find().fetch();
-  }
-  return { loading, projects };
+
+  console.log(params,"sdkjfslfjlj")
+  console.log(projects);
+
+  return { loading, projects ,filterData};
 }, ProjectDisplay);
