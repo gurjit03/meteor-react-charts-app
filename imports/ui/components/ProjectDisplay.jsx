@@ -9,7 +9,7 @@ const renderData = (projectData ) => {
   return ( projectData && projectData.length > 0 ) ?
       <div className="project-display-wrapper">
           <Search />
-          <h1>Project display wrapper</h1>
+
           <table>
             {console.log(projectData,"-----")}
             <thead>
