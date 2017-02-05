@@ -16,6 +16,7 @@ export default ProjectDisplayContainer = createContainer(({ params }) => {
       if(selectorName == 'hours' || selectorName == 'price') {
         projects = Projects.find({ selectorName : { $gt: searchInput } }).fetch();
       }else if(selectorName == 'course' || selectorName == 'classes') {
+        console.log(Projects.find({selectorName : searchInput}).fetch());
         projects = Projects.find({selectorName : searchInput}).fetch();
       }else {
         const selector = {};
